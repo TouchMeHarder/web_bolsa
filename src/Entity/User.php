@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use function Sodium\add;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
 class User implements UserInterface
 {
@@ -23,9 +26,9 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $roles = [];
+    private $role;
 
     /**
      * @var string The hashed password
@@ -55,7 +58,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
 
     public function setUsername(string $username): self
@@ -68,20 +71,42 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRoles(): string
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles = $this->role;
 
-        return array_unique($roles);
+        // guarantee every user at least has ROLE_USER and roles is never null
+        if (isset($roles) === true && $roles === '') {
+            $roles = 'ROLE_USER';
+        } elseif (isset($roles) === false) {
+            $roles = '';
+        }
+
+        return $roles;
     }
 
-    public function setRoles(array $roles): self
+    public function getRolesArray(): array
     {
-        $this->roles = $roles;
+        $roles[] = $this->getRoles();
+
+        return $roles;
+    }
+
+    public function getRole(): string
+    {
+        return $this->getRoles();
+    }
+
+    public function setRoles(string $roles): self
+    {
+        $this->role = $roles;
 
         return $this;
+    }
+
+    public function setRole(string $role): self
+    {
+        return $this->setRoles($role);
     }
 
     /**
@@ -89,7 +114,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -138,5 +163,10 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->name;
     }
 }

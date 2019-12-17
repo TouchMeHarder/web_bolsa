@@ -14,12 +14,6 @@ easy_admin:
           - { property: 'Username', type: 'text' }
           - { property: 'Email', type: 'email' }
           - { property: 'Password', type: 'password' }
-          - property: 'Roles'
-            type: 'choice'
-            type_option:
-              mapped: true
-              expanded: true
-              multiple: true
-              choices: { 'Admin':'ROLE_ADMIN', 'Company':'ROLE_COMPANY', 'Student':'ROLE_STUDENT' }
+          - { property: 'Roles', type: 'text' }
     Job:
       class: App\Entity\Job

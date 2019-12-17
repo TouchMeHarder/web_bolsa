@@ -42,7 +42,7 @@ class Job
     private $dateCreated;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="jobs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -122,5 +122,10 @@ class Job
         $this->author = $author;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->name;
     }
 }
