@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bolsa de trabajo{% endblock %}
+
+{% block body %}
+    <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">Introduce tus datos</h4>
+
+        {{ form_start(form) }}
+        {{ form_row(form.Nombre) }}
+
+        {{ form_row(form.cv) }}
+
+        <button class="btn">Enviar</button>
+
+        {{ form_end(form) }}
+    </article>
+{% endblock %}

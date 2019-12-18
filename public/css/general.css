@@ -1,0 +1,13 @@
+.body-container {
+    flex: 1;
+    min-height: 600px;
+}
+
+.post {
+    padding: 30px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+
+    border: 2px lightgray solid;
+    border-radius: 10px;
+}

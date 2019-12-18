@@ -1,21 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndexController!{% endblock %}
+{% block title %}Bolsa de trabajo{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
-
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
 
     {% block header %}
         <header>
@@ -35,33 +22,38 @@
                 </div>
                 {% if app.user %}
                     <div class="btn-group">
-                        <a class="navbar-text btn dropdown" id="dropdownMenuLink" role="button" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
+                        {% if is_granted('ROLE_COMPANY') %}
+                            <a class="navbar-text btn" href="">{{ app.user.username }}</a>
+                        {% else %}
+                            <a class="navbar-text btn">{{ app.user.username }}</a>
+                        {% endif %}
+                        <a class="navbar-text btn" href="{{ path('app_logout') }}">Salir</a>
                     </div>
                 {% else %}
-                    <a class="btn btn-outline-dark" href="{{ path('app_login') }}">LogIn</a>
+                    <a class="btn btn-outline-dark" href="{{ path('app_login') }}">Iniciar sesi&oacuten</a>
                 {% endif %}
             </nav>
         </header>
     {% endblock %}
 
-    <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container body-container">
+        {% for job in jobs %}
+            <article class="post">
+                <h2>
+                    <a href="{{ path('job', {slug: job.slug}) }}">
+                        {{ job.title }}
+                    </a>
+                </h2>
 
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code><a
-                            href="{{ 'C:/Users/paul.sorin/Desktop/web_bolsa/src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code>
-            </li>
-            <li>Your template at <code><a
-                            href="{{ 'C:/Users/paul.sorin/Desktop/web_bolsa/templates/index/index.html.twig'|file_link(0) }}">templates/index/index.html.twig</a></code>
-            </li>
-        </ul>
+                <p class="post-metadata">
+                    <span class="metadata"><i
+                                class="fa fa-calendar"></i> {{ job.dateCreated|format_datetime('long', 'medium', '', 'GMT') }}</span>
+                    <span class="metadata"><i class="fa fa-user"></i> {{ job.author }}</span>
+                </p>
+
+                <p>{{ job.summary }}</p>
+            </article>
+        {% endfor %}
+
     </div>
 {% endblock %}

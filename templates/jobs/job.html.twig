@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bolsa de trabajo{% endblock %}
+
+{% block body %}
+    <h1>{{ job.title }}</h1>
+
+    <p class="post-metadata">
+        <span class="metadata"><i
+                    class="fa fa-calendar"></i> {{ job.dateCreated|format_datetime('long', 'medium', '', 'UTC') }}</span>
+        <span class="metadata"><i class="fa fa-user"></i> {{ job.author }}</span>
+    </p>
+
+    {{ job.content }}
+
+    {% if is_granted('ROLE_STUDENT') %}
+        <a class="btn btn-secondary" href="{{ path('inscription') }}">Inscribirse</a>
+    {% endif %}
+
+{% endblock %}
