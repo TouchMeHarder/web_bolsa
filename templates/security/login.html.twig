@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Iniciar Sesi&oacuten{% endblock %}
 
 {% block body %}
     <article class="card-body mx-auto" style="max-width: 400px;">
@@ -12,7 +12,7 @@
 
             {% if app.user %}
                 <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    Ha entrado como {{ app.user.username }}, <a href="{{ path('app_logout') }}">Cerrar sesi&oacuten</a>
                 </div>
             {% endif %}
             <div class="form-group">
@@ -43,6 +43,8 @@
             <button class="btn " type="submit">
                 Entrar
             </button>
+
+            <a href="{{ path('app_register') }}">No tiene cuenta? Haga click aqu&iacute</a>
         </form>
     </article>
 {% endblock %}

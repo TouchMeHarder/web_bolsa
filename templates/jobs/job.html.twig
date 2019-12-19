@@ -3,18 +3,48 @@
 {% block title %}Bolsa de trabajo{% endblock %}
 
 {% block body %}
-    <h1>{{ job.title }}</h1>
 
-    <p class="post-metadata">
-        <span class="metadata"><i
-                    class="fa fa-calendar"></i> {{ job.dateCreated|format_datetime('long', 'medium', '', 'UTC') }}</span>
-        <span class="metadata"><i class="fa fa-user"></i> {{ job.author }}</span>
-    </p>
+    {% block header %}
+        <header>
+            <nav class="navbar navbar-light bg-light nav-custom">
+                <a class="navbar-brand" href="{{ path('index') }}">
+                    <img src="/img/ESCUDO_IES_menut.jpg" alt="" width="50px"/>
+                </a>
+                {% if app.user %}
+                    <div class="btn-group">
+                        {% if is_granted('ROLE_COMPANY') %}
+                            <a class="navbar-text btn" href="">{{ app.user.username }}</a>
+                        {% else %}
+                            <a class="navbar-text btn">{{ app.user.username }}</a>
+                        {% endif %}
+                        <a class="navbar-text btn" href="{{ path('app_logout') }}">Salir</a>
+                    </div>
+                {% else %}
+                    <a class="btn btn-outline-dark" href="{{ path('app_login') }}">Iniciar sesi&oacuten</a>
+                {% endif %}
+            </nav>
+        </header>
+    {% endblock %}
 
-    {{ job.content }}
+    <div class="container body-container">
 
-    {% if is_granted('ROLE_STUDENT') %}
-        <a class="btn btn-secondary" href="{{ path('inscription') }}">Inscribirse</a>
-    {% endif %}
+        <article class="post">
+            <h2>
+                {{ job.title }}
+            </h2>
+
+            <p class="post-metadata">
+                    <span class="metadata"><i
+                                class="fa fa-calendar"></i> {{ job.dateCreated|format_datetime('long', 'medium', '', 'GMT') }}</span>
+                <span class="metadata"><i class="fa fa-user"></i> {{ job.author }}</span>
+            </p>
+
+            <p>{{ job.content }}</p>
+        </article>
+
+        {% if is_granted('ROLE_STUDENT') %}
+            <a class="btn btn-secondary" href="{{ path('inscription') }}">Inscribirse</a>
+        {% endif %}
+    </div>
 
 {% endblock %}

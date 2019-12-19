@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Reg&acuteistrese{% endblock %}
 
 {% block body %}
 <article class="card-body mx-auto" style="max-width: 400px;">
@@ -12,9 +12,8 @@
         {{ form_row(registrationForm.plainPassword) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.role) }}
-        {{ form_row(registrationForm.agreeTerms) }}
 
-        <button class="btn">Register</button>
+        <button class="btn">Crear</button>
     {{ form_end(registrationForm) }}
 </article>
 {% endblock %}

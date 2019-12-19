@@ -11,3 +11,7 @@
     border: 2px lightgray solid;
     border-radius: 10px;
 }
+
+.nav-custom {
+    justify-content: space-between !important;
+}
